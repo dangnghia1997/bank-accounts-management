@@ -6,14 +6,14 @@ use App\Http\Controllers\BankController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::prefix("users")->group(function () {
+Route::prefix("customers")->group(function () {
     // Create bank accounts for user
-    Route::post('/{userId}/accounts', [BankAccountController::class, 'create']);
+    Route::post('/{customerId}/bank_accounts', [BankAccountController::class, 'create']);
 });
 
 Route::prefix("bank_accounts")->group(function () {
     Route::get('/{accountId}/transaction_history', [BankAccountController::class, 'history']);
-    Route::get('/{accountId}/balances', [BankAccountController::class, 'balances']);
+    Route::get('/{accountId}/balance', [BankAccountController::class, 'balance']);
 });
 
 Route::prefix("banks")->group(function () {

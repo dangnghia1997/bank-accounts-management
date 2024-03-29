@@ -24,8 +24,8 @@ While modern banks have evolved to serve a plethora of functions, at their core,
 
 ### Endpoints
 ```shell
-  GET|HEAD   api/bank_accounts/{accountId}/balances ....................................................... BankAccountController@balances
-  GET|HEAD   api/bank_accounts/{accountId}/transaction_history ............................................. BankAccountController@history
-  POST       api/banks/transfer .................................................................................. BankController@transfer
-  POST       api/users/{userId}/accounts .................................................................... BankAccountController@create
+  GET|HEAD   api/bank_accounts/{accountId}/balance .................................... BankAccountController@balances
+  GET|HEAD   api/bank_accounts/{accountId}/transaction_history ......................... BankAccountController@history
+  POST       api/banks/transfer .............................................................. BankController@transfer
+  POST       api/customers/{customerId}/bank_accounts ................................... BankAccountController@create
 ```

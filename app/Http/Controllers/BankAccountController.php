@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BankAccountCreateRequest;
 use App\Http\Resources\BankAccountResource;
 use App\Http\Resources\ErrorResponse;
+use App\Http\Resources\SuccessResponse;
 use App\Interfaces\BankAccountServiceInterface;
 use Illuminate\Http\Request;
 
@@ -17,12 +18,12 @@ class BankAccountController extends Controller
 
     /**
      * @param BankAccountCreateRequest $request
-     * @param int $accountId
+     * @param int $customerId
      * @return BankAccountResource|ErrorResponse
      */
-    public function create(BankAccountCreateRequest $request, int $accountId): BankAccountResource|ErrorResponse
+    public function create(BankAccountCreateRequest $request, int $customerId): BankAccountResource|ErrorResponse
     {
-        return $this->bankAccountService->create($accountId, $request);
+        return $this->bankAccountService->create($customerId, $request);
     }
 
     public function history(Request $request, int $accountId)
@@ -30,8 +31,15 @@ class BankAccountController extends Controller
         return ["bank_account_id" => $accountId, "history" => 1];
     }
 
-    public function balances(Request $request)
+    /**
+     * @param Request $request
+     * @param int $accountId
+     * @return SuccessResponse
+     */
+    public function balance(Request $request, int $accountId): SuccessResponse
     {
-        return ["amount" => 922];
+        return new SuccessResponse(null, [
+            'balance' => $this->bankAccountService->getBalance($accountId)
+        ]);
     }
 }

@@ -16,7 +16,7 @@ class BankAccountService implements BankAccountServiceInterface
         private BankAccountRepositoryInterface $bankAccountRepository
     ) {}
 
-    public function create(int $userId, Request $request): BankAccountResource|ErrorResponse
+    public function create(int $customerId, Request $request): BankAccountResource|ErrorResponse
     {
         $body = $request->only([
             'account_number',
@@ -24,7 +24,7 @@ class BankAccountService implements BankAccountServiceInterface
         ]);
 
         try {
-            $bankAccount = $this->bankAccountRepository->create($userId, [
+            $bankAccount = $this->bankAccountRepository->create($customerId, [
                 'account_number' => $body['account_number'],
                 'balance' => $body['deposit']
             ]);
@@ -35,5 +35,15 @@ class BankAccountService implements BankAccountServiceInterface
                 "account_number should be unique"
             );
         }
+    }
+
+    /**
+     * @param int $accountId
+     * @return float
+     */
+    public function getBalance(int $accountId): float
+    {
+        $bankAccount = $this->bankAccountRepository->get($accountId);
+        return $bankAccount?->balance ? (float)$bankAccount?->balance : 0.0;
     }
 }

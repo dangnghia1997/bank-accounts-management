@@ -23,13 +23,13 @@ class BankAccountRepository implements BankAccountRepositoryInterface
     }
 
     /**
-     * @param int $userId
+     * @param int $customerId
      * @param array $payload
      * @return Model|Builder
      */
-    public function create(int $userId, array $payload): Model|Builder
+    public function create(int $customerId, array $payload): Model|Builder
     {
-        $data = array_merge($payload, ['user_id' => $userId]);
+        $data = array_merge($payload, ['customer_id' => $customerId]);
         return $this->getModel()->create($data);
     }
 

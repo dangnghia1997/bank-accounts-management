@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 interface BankAccountRepositoryInterface
 {
     /**
-     * @param int $userId
+     * @param int $customerId
      * @param array $payload
      * @return Model|Builder
      */
-    public function create(int $userId, array $payload): Model|Builder;
+    public function create(int $customerId, array $payload): Model|Builder;
 
     /**
      * @param int $accountId
