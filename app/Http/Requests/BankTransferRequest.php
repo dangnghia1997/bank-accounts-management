@@ -24,7 +24,7 @@ class BankTransferRequest extends FormRequest
         return [
             'from' => 'required',
             'to' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric',
         ];
     }
 }
