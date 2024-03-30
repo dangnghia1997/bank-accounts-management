@@ -23,7 +23,7 @@ class BankAccountCreateRequest extends FormRequest
     {
         return [
             'deposit' => 'required|numeric',
-            'account_number' => 'required',
+            'account_number' => 'required|unique:bank_accounts,account_number',
         ];
     }
 }

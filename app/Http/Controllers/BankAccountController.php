@@ -4,9 +4,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BankAccountCreateRequest;
+use App\Http\Resources\BalanceResource;
 use App\Http\Resources\BankAccountResource;
-use App\Http\Resources\ErrorResponse;
-use App\Http\Resources\SuccessResponse;
 use App\Interfaces\BankAccountServiceInterface;
 use Illuminate\Http\Request;
 
@@ -19,11 +18,18 @@ class BankAccountController extends Controller
     /**
      * @param BankAccountCreateRequest $request
      * @param int $customerId
-     * @return BankAccountResource|ErrorResponse
+     * @return BankAccountResource
      */
-    public function create(BankAccountCreateRequest $request, int $customerId): BankAccountResource|ErrorResponse
+    public function create(BankAccountCreateRequest $request, int $customerId): BankAccountResource
     {
-        return $this->bankAccountService->create($customerId, $request);
+        $body = $request->only([
+            'account_number',
+            'deposit'
+        ]);
+
+        return new BankAccountResource(
+            $this->bankAccountService->createBankAccountForCustomer($customerId, $body)
+        );
     }
 
     public function history(Request $request, int $accountId)
@@ -34,12 +40,12 @@ class BankAccountController extends Controller
     /**
      * @param Request $request
      * @param int $accountId
-     * @return SuccessResponse
+     * @return BalanceResource
      */
-    public function balance(Request $request, int $accountId): SuccessResponse
+    public function balance(Request $request, int $accountId): BalanceResource
     {
-        return new SuccessResponse(null, [
-            'balance' => $this->bankAccountService->getBalance($accountId)
-        ]);
+        return new BalanceResource(
+            $this->bankAccountService->getBankAccount($accountId)
+        );
     }
 }

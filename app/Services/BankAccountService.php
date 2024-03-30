@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Http\Resources\BankAccountResource;
-use App\Http\Resources\ErrorResponse;
 use App\Interfaces\BankAccountRepositoryInterface;
 use App\Interfaces\BankAccountServiceInterface;
-use Illuminate\Database\UniqueConstraintViolationException;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class BankAccountService implements BankAccountServiceInterface
 {
@@ -16,25 +14,17 @@ class BankAccountService implements BankAccountServiceInterface
         private BankAccountRepositoryInterface $bankAccountRepository
     ) {}
 
-    public function create(int $customerId, Request $request): BankAccountResource|ErrorResponse
+    /**
+     * @param int $customerId
+     * @param array $body
+     * @return Model|Builder
+     */
+    public function createBankAccountForCustomer(int $customerId, array $body): Model|Builder
     {
-        $body = $request->only([
-            'account_number',
-            'deposit'
+        return $this->bankAccountRepository->create($customerId, [
+            'account_number' => $body['account_number'],
+            'balance' => $body['deposit']
         ]);
-
-        try {
-            $bankAccount = $this->bankAccountRepository->create($customerId, [
-                'account_number' => $body['account_number'],
-                'balance' => $body['deposit']
-            ]);
-            return new BankAccountResource($bankAccount);
-        } catch (UniqueConstraintViolationException $exception) {
-            return new ErrorResponse(
-                null,
-                "account_number should be unique"
-            );
-        }
     }
 
     /**
@@ -45,5 +35,14 @@ class BankAccountService implements BankAccountServiceInterface
     {
         $bankAccount = $this->bankAccountRepository->get($accountId);
         return $bankAccount?->balance ? (float)$bankAccount?->balance : 0.0;
+    }
+
+    /**
+     * @param int $accountId
+     * @return Model|Builder|null
+     */
+    public function getBankAccount(int $accountId): Model|Builder|null
+    {
+        return $this->bankAccountRepository->get($accountId);
     }
 }
