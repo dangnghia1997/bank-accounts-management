@@ -22,9 +22,9 @@ class BankTransferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'from' => 'required',
-            'to' => 'required',
-            'amount' => 'required|numeric',
+            'from' => 'required|exists:bank_accounts,account_number|different:to',
+            'to' => 'required|exists:bank_accounts,account_number|different:from',
+            'amount' => 'required|numeric|gt:0',
         ];
     }
 }

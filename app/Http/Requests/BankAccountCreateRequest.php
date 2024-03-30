@@ -22,7 +22,7 @@ class BankAccountCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'deposit' => 'required|numeric',
+            'deposit' => 'required|numeric|gt:0',
             'account_number' => 'required|unique:bank_accounts,account_number',
         ];
     }
