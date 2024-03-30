@@ -17,6 +17,22 @@ While modern banks have evolved to serve a plethora of functions, at their core,
     - Retrieve transfer history for a given account.
 
 ---
+### How to set up & run this project?
+In this project, we will use docker for the development process. In particular, Laravel has a package that helps us to easily manage and set it up. And it's name is [Sail](https://laravel.com/docs/10.x/sail).
+- Install docker
+- Copy .env.example to .env and start filling in the values.
+  ```shell
+    cp .env.example .env
+    ```
+- Run below commands:
+  ```shell
+    docker-compose up -d
+    docker-compose run laravel.test composer install
+    ./vendor/bin/sail up --build
+    ./vendor/bin/sail php artisan key:generate
+    ./vendor/bin/sail php artisan migrate
+    ./vendor/bin/sail php artisan db:seed
+    ```
 
 
 ### DB Diagram
@@ -106,3 +122,17 @@ class TransactionRepositoryInterface {
 
 TransactionRepository  ..>  TransactionRepositoryInterface 
 ```
+
+### Postman Collection
+- [Collection](docs/bank_accounts_management.postman_collection.json)
+
+### Reference sources
+- **[Laravel 11.x](https://laravel.com/)**
+
+
+### Contact
+- Full Name: Dang Nghia
+- Email: dangnghia25197@gmail.com
+- LinkedIn: https://www.linkedin.com/in/dangnghia
+
+
