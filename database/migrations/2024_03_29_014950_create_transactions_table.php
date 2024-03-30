@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('from', 32)->comment('From account number');
             $table->string('to', 32)->comment('To account number');
+            $table->decimal('amount', 15, 0)->default(0);
         });
     }
 

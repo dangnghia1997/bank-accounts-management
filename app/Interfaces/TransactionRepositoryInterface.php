@@ -12,4 +12,12 @@ interface TransactionRepositoryInterface
      * @return Collection|array
      */
     public function getAllTransactionDetailByAccount(string $accountNumber): Collection|array;
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @param float $amount
+     * @return void
+     */
+    public function createTransaction(string $from, string $to, float $amount): void;
 }

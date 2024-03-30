@@ -6,6 +6,7 @@ namespace App\Repositories;
 use App\Interfaces\BankAccountRepositoryInterface;
 use App\Models\BankAccount;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class BankAccountRepository implements BankAccountRepositoryInterface
@@ -42,5 +43,16 @@ class BankAccountRepository implements BankAccountRepositoryInterface
         return $this->getModel()
             ->where('id', '=', $accountId)
             ->first();
+    }
+
+    /**
+     * @param array $accountNumberList
+     * @return Collection|array
+     */
+    public function getBankAccountsIn(array $accountNumberList = []): Collection|array
+    {
+        return $this->getModel()
+            ->whereIn('account_number', $accountNumberList)
+            ->get();
     }
 }

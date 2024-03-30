@@ -42,4 +42,33 @@ class TransactionRepository implements TransactionRepositoryInterface
             ->where('account_number', '=', $accountNumber)
             ->get();
     }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @param float $amount
+     * @return void
+     */
+    public function createTransaction(string $from, string $to, float $amount): void
+    {
+        $transaction = $this->getTransactionModel()->create([
+            'from' => $from,
+            'to' => $to,
+            'amount' => $amount
+        ]);
+
+        $transactionId = $transaction->id;
+
+        $detailOfSourceAccount = $this->getTransactionDetailModel()->create([
+            'parent_id' => $transactionId,
+            'account_number' => $from,
+            'amount' => -$amount
+        ]);
+
+        $detailOfDestinationAccount = $this->getTransactionDetailModel()->create([
+            'parent_id' => $transactionId,
+            'account_number' => $to,
+            'amount' => $amount
+        ]);
+    }
 }
