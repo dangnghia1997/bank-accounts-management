@@ -11,4 +11,12 @@ class TransactionDetail extends Model
 {
     use HasFactory;
     use HasUuids;
+
+    protected $primaryKey = 'uuid';
+
+    protected $fillable = [
+        'parent_id',
+        'account_number',
+        'amount'
+    ];
 }

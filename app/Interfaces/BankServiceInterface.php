@@ -5,5 +5,11 @@ namespace App\Interfaces;
 
 interface BankServiceInterface
 {
-    public function transfer(string $from, string $to, $amount);
+    /**
+     * @param string $from
+     * @param string $to
+     * @param $amount
+     * @return bool
+     */
+    public function transfer(string $from, string $to, $amount): bool;
 }

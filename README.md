@@ -29,3 +29,80 @@ While modern banks have evolved to serve a plethora of functions, at their core,
   POST       api/banks/transfer .............................................................. BankController@transfer
   POST       api/customers/{customerId}/bank_accounts ................................... BankAccountController@create
 ```
+### Class Diagram
+
+```mermaid
+classDiagram
+  direction BT
+	class BankAccountController {
+	   __construct(bankAccountService) 
+	    bankAccountService
+	   balance(request, accountId) 
+	   history(request, accountId) 
+	   create(request, customerId) 
+	}
+	
+	class BankController {
+	   __construct(bankService) 
+	    bankService
+	   transfer(request) 
+	}
+	
+	class Controller
+	
+	BankAccountController  -->  Controller 
+	BankController  -->  Controller 
+	
+	  direction B	
+	class BankAccountService {
+	   __construct(bankAccountRepository, transactionRepository) 
+	   getAllTransactionsByAccount(accountId) 
+	   getBalance(accountId) 
+	   createBankAccountForCustomer(customerId, body) 
+	   getBankAccount(accountId) 
+	}
+	class BankAccountServiceInterface {
+	   getAllTransactionsByAccount(accountId) 
+	   createBankAccountForCustomer(customerId, body) 
+	   getBalance(accountId) 
+	   getBankAccount(accountId) 
+	}
+	
+	BankAccountService  ..>  BankAccountServiceInterface 
+	
+	class BankService {
+	   __construct(bankAccountRepository, transactionRepository) 
+	   transfer(from, to, amount) 
+	}
+	class BankServiceInterface {
+	   transfer(from, to, amount) 
+	}
+	
+	BankService  ..>  BankServiceInterface 
+	
+	class BankAccountRepository {
+	   __construct(model) 
+	   getBankAccountsIn(accountNumberList) 
+	   get(accountId) 
+	   create(customerId, payload) 
+	}
+	class BankAccountRepositoryInterface {
+	   getBankAccountsIn(accountNumberList) 
+	   get(accountId) 
+	   create(customerId, payload) 
+	}
+	
+	BankAccountRepository  ..>  BankAccountRepositoryInterface 
+	
+class TransactionRepository {
+   __construct(transactionModel, transactionDetailModel) 
+   getAllTransactionDetailByAccount(accountNumber) 
+   createTransaction(from, to, amount) 
+}
+class TransactionRepositoryInterface {
+   getAllTransactionDetailByAccount(accountNumber) 
+   createTransaction(from, to, amount) 
+}
+
+TransactionRepository  ..>  TransactionRepositoryInterface 
+```
