@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BankAccountCreateRequest;
 use App\Http\Resources\BalanceResource;
 use App\Http\Resources\BankAccountResource;
+use App\Http\Resources\TransactionDetailCollection;
 use App\Interfaces\BankAccountServiceInterface;
 use Illuminate\Http\Request;
 
@@ -32,9 +33,16 @@ class BankAccountController extends Controller
         );
     }
 
-    public function history(Request $request, int $accountId)
+    /**
+     * @param Request $request
+     * @param int $accountId
+     * @return TransactionDetailCollection
+     */
+    public function history(Request $request, int $accountId): TransactionDetailCollection
     {
-        return ["bank_account_id" => $accountId, "history" => 1];
+        return new TransactionDetailCollection(
+            $this->bankAccountService->getAllTransactionsByAccount($accountId)
+        );
     }
 
     /**
