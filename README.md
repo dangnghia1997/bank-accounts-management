@@ -18,7 +18,7 @@ While modern banks have evolved to serve a plethora of functions, at their core,
 
 ---
 ### How to set up & run this project?
-In this project, we will use docker for the development process. In particular, Laravel has a package that helps us to easily manage and set it up. And it's name is [Sail](https://laravel.com/docs/10.x/sail).
+In this project, we will use docker for the development process. In particular, Laravel has a package that helps us to easily manage and set it up. And it's name is [Sail](https://laravel.com/docs/11.x/sail).
 - Install docker
 - Copy .env.example to .env and start filling in the values.
   ```shell
