@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaction_logs', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->uuid('transaction_hash');
-            $table->string('action', 3)->comment('Value in ["in", "out"]');
-            $table->decimal('amount', 15, 0);
             $table->string('from', 32)->comment('From account number');
             $table->string('to', 32)->comment('To account number');
-            $table->timestamps();
         });
     }
 
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaction_logs');
+        Schema::dropIfExists('transactions');
     }
 };
